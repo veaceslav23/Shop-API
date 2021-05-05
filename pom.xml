@@ -16,6 +16,10 @@
 	<properties>
 		<flyway.version>7.1.1</flyway.version>
 		<java.version>11</java.version>
+		<jwt.version>0.9.1</jwt.version>
+		<flyway-db.user>postgres</flyway-db.user>
+		<flyway-db.password>postgres</flyway-db.password>
+		<flyway-db.url>jdbc:postgresql://localhost:5432/shop</flyway-db.url>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -25,6 +29,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -45,6 +54,11 @@
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
 		</dependency>
 
 		<dependency>
@@ -92,6 +106,11 @@
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
 				<version>${flyway.version}</version>
+				<configuration>
+					<url>${flyway-db.url}</url>
+					<user>${flyway-db.user}</user>
+					<password>${flyway-db.password}</password>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
