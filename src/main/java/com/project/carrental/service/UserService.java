@@ -1,14 +1,17 @@
 package com.project.carrental.service;
 
+import com.project.carrental.persistence.model.ImageEntity;
 import com.project.carrental.persistence.model.UserEntity;
 import com.project.carrental.persistence.model.enums.UserStatusEnum;
 import com.project.carrental.persistence.repository.RoleRepository;
 import com.project.carrental.persistence.repository.UserRepository;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ImageService imageService;
 
     public UserEntity register(UserEntity user) {
         val roleUser = roleRepository.findByCode("USER");

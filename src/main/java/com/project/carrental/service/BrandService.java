@@ -27,4 +27,8 @@ public class BrandService {
     public List<BrandEntity> getAll() {
         return brandRepository.findAll();
     }
+
+    public BrandEntity getByBrandName(String name) {
+        return brandRepository.findByName(name);
+    }
 }

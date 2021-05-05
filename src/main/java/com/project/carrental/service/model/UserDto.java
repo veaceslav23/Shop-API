@@ -1,6 +1,9 @@
 package com.project.carrental.service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.carrental.persistence.model.ImageEntity;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -23,4 +26,8 @@ public class UserDto {
     private String lastName;
     @NotNull
     private String email;
+    @NotNull
+    private String password;
+    private String imageCode;
+    private MultipartFile image;
 }

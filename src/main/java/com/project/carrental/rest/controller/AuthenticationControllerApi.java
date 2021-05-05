@@ -3,8 +3,10 @@ package com.project.carrental.rest.controller;
 import com.project.carrental.security.jwt.JwtTokenProvider;
 import com.project.carrental.service.UserService;
 import com.project.carrental.service.model.AuthenticationRequestDto;
+import com.project.carrental.service.model.LoginResponseDto;
 import com.project.carrental.service.model.RegisterRequestDto;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
@@ -30,12 +29,16 @@ import static com.project.carrental.service.utils.TransformersUtils.convertFromR
 @RequestMapping(value = "/api/auth/")
 public class AuthenticationControllerApi {
 
+//    @Value("${upload.path}")
+//    private final String uploadPath;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
-    @PostMapping(value = "login",
-        consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(
+        value = "login",
+        consumes = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity login(@RequestBody AuthenticationRequestDto authenticationRequest) {
         try {
             val username = authenticationRequest.getUsername();
@@ -47,11 +50,13 @@ public class AuthenticationControllerApi {
             if (user == null) {
                 throw new UsernameNotFoundException("User with username: " + username + " not found");
             }
+
             val token = jwtTokenProvider.createToken(username, user.getRoles());
 
-            Map<Object, Object> response = new HashMap<>();
-            response.put("username", username);
-            response.put("token", token);
+            val response = LoginResponseDto.builder()
+                .username(username)
+                .token(token)
+                .build();
 
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
@@ -59,14 +64,38 @@ public class AuthenticationControllerApi {
         }
     }
 
-    @PostMapping(value = "register",
-        consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity register(@RequestBody RegisterRequestDto registerRequestDto) {
-        try {
-            val newUser = userService.register(convertFromRegisterRequestDtoToUser.apply(registerRequestDto));
-            return ResponseEntity.ok(newUser);
-        } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid user details");
-        }
+    @PostMapping(
+        value = "register",
+        consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity register(
+        @RequestBody RegisterRequestDto registerRequestDto
+    ) {
+        return ResponseEntity.ok(userService.register(
+            convertFromRegisterRequestDtoToUser.apply(registerRequestDto)
+        ));
     }
+
+//    @PostMapping(value = "register",
+//        consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity register(
+//        @RequestBody RegisterRequestDto registerRequestDto,
+//        @RequestParam("file")
+//            MultipartFile file
+//    ) throws IOException {
+//
+//        val newUser = convertFromRegisterRequestDtoToUser.apply(registerRequestDto);
+//        if (file != null) {
+//            val uploadDir = new File(uploadPath);
+//            if (!uploadDir.exists()) {
+//                uploadDir.mkdir();
+//            }
+//            val resultFileName = newUser.getUsername().concat("_profile." + file.getOriginalFilename());
+//
+//            file.transferTo(new File(uploadPath + resultFileName));
+//
+//            newUser.setProfilePicture(resultFileName);
+//        }
+//        return ResponseEntity.ok(userService.register(newUser));
+//    }
 }

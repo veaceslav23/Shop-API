@@ -18,4 +18,5 @@ public class RegisterRequestDto {
     private String lastName;
     @NotNull
     private String email;
+    private String profilePicture;
 }
