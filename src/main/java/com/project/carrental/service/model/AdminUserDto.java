@@ -2,6 +2,7 @@ package com.project.carrental.service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Set;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
@@ -25,4 +26,5 @@ public class AdminUserDto {
     private String email;
     @NotNull
     private String status;
+    private Set<InvoiceDto> invoices;
 }

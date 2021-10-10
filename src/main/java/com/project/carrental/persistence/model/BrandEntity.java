@@ -33,13 +33,8 @@ import lombok.ToString;
 public class BrandEntity {
     @Id
     @Column(name = "id", columnDefinition = "VARCHAR(36) NOT NULL")
-    @GeneratedValue
-    @Type(type = "uuid-char")
-    private UUID id;
+    private String id;
 
     @Column
     private String name;
-
-    @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
-    private Set<CarEntity> cars;
 }

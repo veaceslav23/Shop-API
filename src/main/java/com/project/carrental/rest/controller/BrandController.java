@@ -1,13 +1,16 @@
 package com.project.carrental.rest.controller;
 
-import com.project.carrental.service.BrandService;
+import static com.project.carrental.service.utils.TransformersUtils.convertToBrandDto;
 
+import com.project.carrental.service.BrandService;
+import com.project.carrental.service.model.BrandDto;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/brands")
@@ -18,6 +21,11 @@ public class BrandController {
 
     @GetMapping
     public ResponseEntity getAll() {
-        return ResponseEntity.ok(brandService.getAll());
+        return ResponseEntity.ok(brandService.getAll().stream().map(convertToBrandDto).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/{code}")
+    public ResponseEntity<BrandDto> getByCode(@PathVariable("code") String code) {
+        return ResponseEntity.ok(convertToBrandDto.apply(brandService.getByBrandName(code)));
     }
 }

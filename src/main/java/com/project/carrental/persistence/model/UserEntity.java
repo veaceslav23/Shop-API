@@ -2,6 +2,7 @@ package com.project.carrental.persistence.model;
 
 import com.project.carrental.persistence.model.enums.UserStatusEnum;
 
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -32,7 +33,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "invoices")
+@ToString(exclude = "invoices")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
@@ -72,6 +74,9 @@ public class UserEntity extends BaseEntity {
     private Set<RoleEntity> roles;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
     private ImageEntity image;
+
+    @OneToMany(mappedBy = "user")
+    private Set<InvoiceEntity> invoices;
 }

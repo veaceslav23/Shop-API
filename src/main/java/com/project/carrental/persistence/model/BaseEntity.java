@@ -16,11 +16,11 @@ import lombok.EqualsAndHashCode;
 @MappedSuperclass
 public abstract class BaseEntity {
 
-    @CreatedDate
     @Column(name = "created_at")
+    @CreatedDate
     private ZonedDateTime createdAt;
 
-    @LastModifiedDate
     @Column(name = "updated_at")
+    @LastModifiedDate
     private ZonedDateTime updatedAt;
 }

@@ -20,7 +20,7 @@ public class BrandService {
         return brandRepository.save(brandEntity);
     }
 
-    public Optional<BrandEntity> getByUuid(UUID brandId) {
+    public Optional<BrandEntity> getByUuid(String brandId) {
         return brandRepository.findById(brandId);
     }
 

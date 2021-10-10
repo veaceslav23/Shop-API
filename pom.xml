@@ -11,7 +11,7 @@
 	<groupId>com.project</groupId>
 	<artifactId>shop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>shop</name>
+	<name>Car Rental</name>
 	<description>E-commerce</description>
 	<properties>
 		<flyway.version>7.1.1</flyway.version>
@@ -19,7 +19,7 @@
 		<jwt.version>0.9.1</jwt.version>
 		<flyway-db.user>postgres</flyway-db.user>
 		<flyway-db.password>postgres</flyway-db.password>
-		<flyway-db.url>jdbc:postgresql://localhost:5432/shop</flyway-db.url>
+		<flyway-db.url>jdbc:postgresql://localhost:5432/car_rental</flyway-db.url>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -59,6 +59,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

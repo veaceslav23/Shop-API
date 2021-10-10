@@ -1,4 +1,4 @@
-package com.project.carrental.service.model;
+package com.project.carrental.service.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

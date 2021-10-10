@@ -1,5 +1,6 @@
 package com.project.carrental.persistence.model;
 
+import javax.persistence.EntityListeners;
 import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
@@ -22,14 +23,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "cars")
-public class CarEntity {
+public class CarEntity extends BaseEntity {
     @Id
     @Column(name = "id",
         columnDefinition = "VARCHAR(36) NOT NULL")
@@ -62,4 +65,16 @@ public class CarEntity {
         joinColumns = @JoinColumn(name = "car_id"),
         inverseJoinColumns = @JoinColumn(name = "image_id"))
     private Set<ImageEntity> image;
+
+    @Column
+    private String transmission;
+
+    @Column(name = "fuel_type")
+    private String fuelType;
+
+    @Column(name = "engine_capacity")
+    private Integer engineCapacity;
+
+    @Column
+    private String traction;
 }

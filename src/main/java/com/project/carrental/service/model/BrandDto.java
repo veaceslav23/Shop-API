@@ -1,5 +1,6 @@
 package com.project.carrental.service.model;
 
+import java.util.Set;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -12,6 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BrandDto {
-    private UUID id;
-    private String name;
+    private String id;
+    private String code;
 }
