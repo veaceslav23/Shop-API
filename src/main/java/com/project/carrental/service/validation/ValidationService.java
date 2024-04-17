@@ -9,7 +9,7 @@ import com.project.carrental.persistence.repository.UserRepository;
 import com.project.carrental.service.exception.GenericException;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +19,7 @@ public class ValidationService {
     private final UserRepository userRepository;
 
     public void validateInvoiceStartEndDate(InvoiceEntity invoice) {
-        val now = LocalDate.now();
+        var now = LocalDate.now();
         if (invoice.getStartDate().isBefore(now)
             || invoice.getEndDate().isBefore(now)
             || invoice.getEndDate().isBefore(invoice.getStartDate())

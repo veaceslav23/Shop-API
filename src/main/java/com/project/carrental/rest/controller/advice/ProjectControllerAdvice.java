@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
+
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -54,7 +54,7 @@ public class ProjectControllerAdvice {
     public ResponseEntity<ErrorResponse> handleValidationExceptions(
         MethodArgumentNotValidException ex
     ) {
-        val errorMessages = ex.getBindingResult().getAllErrors().stream()
+        var errorMessages = ex.getBindingResult().getAllErrors().stream()
             .map(DefaultMessageSourceResolvable::getDefaultMessage)
             .collect(Collectors.toList());
 
@@ -73,7 +73,7 @@ public class ProjectControllerAdvice {
     public ResponseEntity<ErrorResponse> handleMailException(
         MailException ex
     ) {
-        val errorMessages = singletonList(ex.getLocalizedMessage());
+        var errorMessages = singletonList(ex.getLocalizedMessage());
 
         var errorResponse = ErrorResponse.builder()
             .status(INTERNAL_SERVER_ERROR)

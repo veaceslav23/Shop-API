@@ -9,7 +9,7 @@ import com.project.carrental.service.exception.GenericException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,7 +26,7 @@ public class UserService {
     private final ImageService imageService;
 
     public UserEntity register(UserEntity user) {
-        val registeredUser = userRepository.save(user);
+        var registeredUser = userRepository.save(user);
         log.info("IN register -user: {} successfully registered", registeredUser);
         return registeredUser;
     }
@@ -36,13 +36,13 @@ public class UserService {
     }
 
     public Page<UserEntity> getAll(Pageable pageable) {
-        val users = userRepository.findAll(pageable);
+        var users = userRepository.findAll(pageable);
         log.info("IN getAll - {} users found", users.getTotalElements());
         return users;
     }
 
     public UserEntity getByUsername(String username) {
-        val user = userRepository.findByUsername(username)
+        var user = userRepository.findByUsername(username)
             .orElseThrow(() -> GenericException.of(USER_NOT_FOUND));
 
         log.info("user : {} found by username: {}", user, user.getUsername());

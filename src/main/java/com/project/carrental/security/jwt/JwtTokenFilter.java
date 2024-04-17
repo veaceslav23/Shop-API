@@ -12,7 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import lombok.AllArgsConstructor;
-import lombok.val;
+
 
 @AllArgsConstructor
 public class JwtTokenFilter extends GenericFilterBean {
@@ -25,10 +25,10 @@ public class JwtTokenFilter extends GenericFilterBean {
         ServletResponse servletResponse,
         FilterChain filterChain
     ) throws IOException, ServletException {
-        val token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
+        var token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            val authentication = jwtTokenProvider.getAuthentication(token);
+            var authentication = jwtTokenProvider.getAuthentication(token);
             if (authentication != null) {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

@@ -19,7 +19,6 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -42,11 +41,11 @@ public class JwtTokenProvider {
         String username,
         Set<RoleEntity> roles
     ) {
-        val claims = Jwts.claims().setSubject(username);
+        var claims = Jwts.claims().setSubject(username);
         claims.put("roles", getRoleCodes(roles));
 
-        val now = new Date();
-        val lifeTime = new Date(now.getTime() + tokenLifetime);
+        var now = new Date();
+        var lifeTime = new Date(now.getTime() + tokenLifetime);
 
         return Jwts.builder()
             .setClaims(claims)
@@ -57,7 +56,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        val userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
+        var userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
@@ -67,7 +66,7 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            val claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            var claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
             throw new JwtAuthenticationException("JWT token is expired or invalid");
@@ -76,7 +75,7 @@ public class JwtTokenProvider {
 
 
     public String resolveToken(HttpServletRequest request) {
-        val bearerToken = request.getHeader("Authorization");
+        var bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
             return bearerToken.substring(7, bearerToken.length());
         }

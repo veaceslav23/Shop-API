@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,7 +71,7 @@ public class CarControllerApi {
             defaultValue = "",
             required = false) BigDecimal maxPrice
     ) {
-        val request = GetAllCarsRequest.builder()
+        var request = GetAllCarsRequest.builder()
             .brandId(brandId)
             .model(modelId)
             .transmission(transmission)

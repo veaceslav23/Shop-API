@@ -15,13 +15,10 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 @Slf4j
 @Service
@@ -158,7 +155,7 @@ public class CarService {
     }
 
     public CarEntity save(CarEntity car) {
-        val newCar = carRepository.save(car);
+        var newCar = carRepository.save(car);
 
         log.info("IN save car - car: {} successfully created", newCar);
 

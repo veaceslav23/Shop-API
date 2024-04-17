@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
 
     public InvoiceEntity create(InvoiceEntity invoiceEntity) {
-        val invoice = invoiceRepository.save(invoiceEntity);
+        var invoice = invoiceRepository.save(invoiceEntity);
 
         log.info("in saveInvoice: created new invoice with ID : {} for user : {}", invoiceEntity.getId(), invoice.getUser().getUsername());
 
@@ -29,7 +29,7 @@ public class InvoiceService {
     }
 
     public Page<InvoiceEntity> getAllInvoices(Pageable pageable) {
-        val invoices = invoiceRepository.findAll(pageable);
+        var invoices = invoiceRepository.findAll(pageable);
 
         log.info("in getAllInvoices: found {} invoices", invoices.getTotalElements());
 

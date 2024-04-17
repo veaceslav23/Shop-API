@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -39,7 +39,7 @@ public class InvoiceFacade {
 
     public InvoiceDto createInvoice(InvoiceDto invoiceDto) {
 
-        val invoice = InvoiceEntity.builder()
+        var invoice = InvoiceEntity.builder()
             .invoiceStatus(InvoiceStatusEnum.NEW)
             .user(userService.getById(invoiceDto.getUser().getId()))
             .car(carService.getByID(invoiceDto.getCar().getId()))
@@ -55,7 +55,7 @@ public class InvoiceFacade {
 
         carService.setIsReserved(invoice.getCar().toBuilder().isReserved(Boolean.TRUE).build());
 
-        val createdInvoice = invoiceService.create(invoice);
+        var createdInvoice = invoiceService.create(invoice);
 
         emailService.sendSimpleMessage(
             createdInvoice.getUser().getEmail(),
@@ -88,7 +88,7 @@ public class InvoiceFacade {
     }
 
     public Page<InvoiceDto> getByUserId(UUID id, Integer page, Integer limit, String sort, String direction) {
-        val pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.fromString(direction), sort));
+        var pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.fromString(direction), sort));
 
         return invoiceService.getByUserId(id, pageable).map(convertToInvoiceDto);
     }
@@ -99,22 +99,22 @@ public class InvoiceFacade {
         String sort,
         String direction
     ) {
-        val pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.fromString(direction), sort));
+        var pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.fromString(direction), sort));
 
         return invoiceService.getAllInvoices(pageable)
             .map(convertToInvoiceDto);
     }
 
     public UUID moveToPaid(UUID id) {
-        val invoice = invoiceService.getById(id);
+        var invoice = invoiceService.getById(id);
         invoice.setInvoiceStatus(InvoiceStatusEnum.PAID);
 
         return invoiceService.create(invoice).getId();
     }
 
     public UUID deleteById(UUID id) {
-        val invoice = invoiceService.getById(id);
-        val car = invoice.getCar().toBuilder()
+        var invoice = invoiceService.getById(id);
+        var car = invoice.getCar().toBuilder()
             .isReserved(Boolean.FALSE)
             .build();
 

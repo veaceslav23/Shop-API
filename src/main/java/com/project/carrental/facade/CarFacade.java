@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -34,15 +34,15 @@ public class CarFacade {
 
     public CarDto create(CarDto car) {
 
-        val images = car.getFiles()
+        var images = car.getFiles()
             .stream()
             .map(image -> imageService.uploadToLocalFileSystem(image, CAR_PICTURES_PATH))
             .collect(Collectors.toSet());
 
-        val brand = brandService.getByUuid(car.getBrand())
+        var brand = brandService.getByUuid(car.getBrand())
             .orElseThrow(() -> GenericException.of(BRAND_NOT_FOUND));
 
-        val newCar = CarEntity.builder()
+        var newCar = CarEntity.builder()
             .brand(brand)
             .model(car.getModel())
             .price(car.getPrice())
@@ -65,8 +65,8 @@ public class CarFacade {
         String direction,
         GetAllCarsRequest request
     ) {
-        val pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.fromString(direction), sort));
-        val specification = getCarsSpecification(request);
+        var pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.fromString(direction), sort));
+        var specification = getCarsSpecification(request);
 
         return carService.getAll(specification, pageable)
             .map(convertToCarDto);
@@ -77,11 +77,11 @@ public class CarFacade {
     }
 
     public CarDto updateByID(UUID id, CarDto newCar) {
-        val brand = brandService.getByUuid(newCar.getBrand())
+        var brand = brandService.getByUuid(newCar.getBrand())
             .orElseThrow(() -> GenericException.of(BRAND_NOT_FOUND));
         Set<ImageEntity> images = Collections.emptySet();
         try {
-            val car = carService.getByID(id);
+            var car = carService.getByID(id);
 
             if (newCar.getFiles() != null) {
                 images = newCar.getFiles()

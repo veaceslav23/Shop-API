@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -51,20 +51,20 @@ public class UserFacade {
     private final ValidationService validationService;
 
     public LoginResponseDto login(AuthenticationRequestDto authenticationRequest) {
-        val username = authenticationRequest.getUsername();
+        var username = authenticationRequest.getUsername();
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
             username,
             authenticationRequest.getPassword()
         ));
 
-        val user = userService.getByUsername(username);
+        var user = userService.getByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User with username: " + username + " not found");
         }
 
-        val token = jwtTokenProvider.createToken(username, user.getRoles());
+        var token = jwtTokenProvider.createToken(username, user.getRoles());
 
         return LoginResponseDto.builder()
             .username(username)
@@ -73,19 +73,19 @@ public class UserFacade {
     }
 
     public UserDto register(RegisterRequestDto requestDto) {
-        val user = convertFromRegisterRequestDtoToUser.apply(requestDto);
+        var user = convertFromRegisterRequestDtoToUser.apply(requestDto);
 
         validationService.validateEmail(requestDto.getEmail());
         validationService.validateUsername(requestDto.getEmail());
 
-        val roleUser = roleService.getByCode(USER);
-        val userRoles = singleton(roleUser);
-        val image = imageService.getImageById(DEFAULT_PROFILE_PICTURE);
+        var roleUser = roleService.getByCode(USER);
+        var userRoles = singleton(roleUser);
+        var image = imageService.getImageById(DEFAULT_PROFILE_PICTURE);
 
         user.setPassword(userService.encodePassword(user.getPassword()));
         user.setRoles(userRoles);
         user.setStatus(UserStatusEnum.ACTIVE);
-        user.setImage(image);
+        //user.setImage(image);
 
         return convertFromUserToUserDto.apply(userService.register(user));
     }
@@ -94,12 +94,12 @@ public class UserFacade {
         UUID id,
         UserDto newUser
     ) {
-        val foundUser = userService.getById(id);
+        var foundUser = userService.getById(id);
 
         if (!newUser.getImage().isEmpty()) {
             imageService.uploadToLocalFileSystem(newUser.getImage(), USER_PROFILE_PICTURES_PATH);
 
-            val image = convertToImageEntity.apply(newUser.getImage());
+            var image = convertToImageEntity.apply(newUser.getImage());
 
             foundUser.setImage(image);
         }
@@ -117,14 +117,14 @@ public class UserFacade {
         String sort,
         String direction
     ) {
-        val pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.fromString(direction), sort));
+        var pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.fromString(direction), sort));
 
         return userService.getAll(pageable)
             .map(convertFromUserToAdminUserDto);
     }
 
     public UserDto getMostLoyalUser() {
-        val userInvoices = invoiceService.getAll()
+        var userInvoices = invoiceService.getAll()
             .stream()
             .collect(groupingBy(InvoiceEntity::getUser, Collectors.summingLong(invoice -> invoice.getPaymentAmount().longValue())));
 

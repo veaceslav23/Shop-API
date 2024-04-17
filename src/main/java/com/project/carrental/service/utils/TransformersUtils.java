@@ -58,7 +58,7 @@ public class TransformersUtils {
             .lastName(user.getLastName())
             .email(user.getEmail())
             .username(user.getUsername())
-            .imageCode(user.getImage().getCode())
+            //.imageCode(user.getImage().getCode())
             .build();
 
     public static final Function<AdminUserDto, UserEntity> convertFromAdminUserDtoToUser =

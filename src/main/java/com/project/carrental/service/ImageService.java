@@ -21,7 +21,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
+
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class ImageService {
 
     public ImageEntity getImageById(String id) {
         return imageRepository.findById(UUID.fromString(id))
-            .orElseThrow(RuntimeException::new);
+            .orElse(null);
     }
 
     public ImageEntity uploadToLocalFileSystem(MultipartFile file, String directory) {
@@ -74,7 +74,7 @@ public class ImageService {
 //            .path(fileName)
 //            .toUriString();
 
-        val imageEntity = ImageEntity.builder().code(fileName).build();
+        var imageEntity = ImageEntity.builder().code(fileName).build();
         // return the download image url as a response entity
         return imageRepository.save(imageEntity);
     }

@@ -6,7 +6,7 @@ import com.project.carrental.service.model.UserDto;
 
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import lombok.val;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,14 +38,14 @@ public class UserControllerApi {
 
     @GetMapping(value = "username/{username}")
     public ResponseEntity<UserDto> getUserByUsername(@PathVariable(name = "username") String username) {
-        val user = userService.getByUsername(username);
+        var user = userService.getByUsername(username);
 
-        val invoices = user.getInvoices()
+        var invoices = user.getInvoices()
             .stream()
             .map(convertToInvoiceDto)
             .collect(Collectors.toSet());
 
-        val userDto = convertFromUserToUserDto.apply(user);
+        var userDto = convertFromUserToUserDto.apply(user);
         userDto.setInvoices(invoices);
 
         return ResponseEntity.ok(userDto);

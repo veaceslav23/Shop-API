@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
+
 
 @Service
 @Slf4j
@@ -21,13 +21,13 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        val user = userService.getByUsername(username);
+        var user = userService.getByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User with username: " + username + " not found!");
         }
 
-        val jwtUser = JwtUserFactory.create(user);
+        var jwtUser = JwtUserFactory.create(user);
 
         log.info("IN loadByUserName - user with username: {} successfully loaded", username);
 
